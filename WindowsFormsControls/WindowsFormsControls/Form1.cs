@@ -27,5 +27,16 @@ namespace WindowsFormsControls
         {
             progressBar1.Value++;
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            string name = textBox1.Text;
+            string value = textBox2.Text;
+            Button button = new Button();
+            button.Name = name;
+            button.Text = value;
+
+            flowLayoutPanel1.Controls.Add(button);
+        }
     }
 }
