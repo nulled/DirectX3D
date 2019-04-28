@@ -18,6 +18,8 @@ namespace WindowsFormsControls
             InitializeComponent();
         }
 
+        Person person = new Person();
+
         private void timer1_Tick(object sender, EventArgs e)
         {
             numericUpDown1.Value++;
@@ -33,10 +35,26 @@ namespace WindowsFormsControls
             string name = textBox1.Text;
             string value = textBox2.Text;
             Button button = new Button();
-            button.Name = name;
-            button.Text = value;
+            person.Name = button.Name = name;
+            person.Email = button.Text = value;
 
             flowLayoutPanel1.Controls.Add(button);
+            propertyGrid1.SelectedObject = person;
+        }
+    }
+
+    class Person
+    {
+        public string Name
+        {
+            get;
+            set;
+        }
+
+        public string Email
+        {
+            get;
+            set;
         }
     }
 }
