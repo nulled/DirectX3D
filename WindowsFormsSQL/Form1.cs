@@ -8,12 +8,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data.SqlClient;
+using System.Configuration;
 
 namespace WindowsFormsSQL
 {
     public partial class Form1 : Form
     {
-        SqlConnection con = new SqlConnection(@"Data Source=MATT-LAPTOP;Initial Catalog=test;Integrated Security=True;");
+        SqlConnection con;
         SqlCommand cmd;
         SqlDataAdapter adpt;
         DataTable dt;
@@ -21,11 +22,14 @@ namespace WindowsFormsSQL
         public Form1()
         {
             InitializeComponent();
+            var connectionString = ConfigurationManager.ConnectionStrings["test"].ConnectionString;
+            con = new SqlConnection(connectionString);
             ShowData();
         }
 
         private void btnInsertRecord_Click(object sender, EventArgs e)
         {
+            
             con.Open();
             cmd = new SqlCommand("INSERT INTO users VALUES('" + txtFirstName.Text + "','" + txtLastName.Text + "','" + txtPhone.Text + "')", con);
             cmd.ExecuteNonQuery();
@@ -46,6 +50,7 @@ namespace WindowsFormsSQL
             dt = new DataTable();
             adpt.Fill(dt);
             dataGridView1.DataSource = dt;
+            dt.DefaultView.RowFilter = "firstname = 'Matthew'";
         }
 
         private void btnOpenFile_Click(object sender, EventArgs e)

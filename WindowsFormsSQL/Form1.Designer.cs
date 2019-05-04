@@ -106,7 +106,7 @@
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Location = new System.Drawing.Point(79, 158);
             this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(240, 150);
+            this.dataGridView1.Size = new System.Drawing.Size(442, 162);
             this.dataGridView1.TabIndex = 7;
             // 
             // btnOpenFile
@@ -121,7 +121,7 @@
             // 
             // pictureBox1
             // 
-            this.pictureBox1.Location = new System.Drawing.Point(354, 13);
+            this.pictureBox1.Location = new System.Drawing.Point(545, 5);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(243, 295);
             this.pictureBox1.TabIndex = 9;
@@ -142,6 +142,7 @@
             this.Controls.Add(this.txtLastName);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.txtFirstName);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "Form1";
             this.Text = "Form1";
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
