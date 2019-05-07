@@ -22,13 +22,19 @@ namespace WindowsFormsDataBinding
             List<Product> products = StoreDB.GetProducts();
 
             listBox1.DataSource = products;
-            //listBox1.DisplayMember = "modelNumber";
+            listBox1.DisplayMember = "ModelName";
+            customPictureBox1.Directory = @"C:\Users\nulled\Documents";
         }
 
         private void ListBox1_Click(object sender, EventArgs e)
         {
             Product product = (Product)listBox1.SelectedItem;
-            MessageBox.Show(String.Format("Costs {0:C}", product.unitCost));
+            MessageBox.Show(String.Format("Costs {0:C}", product.UnitCost));
+        }
+
+        private void CustomPictureBox1_PictureSelected(object sender, PictureSelectedEventArgs e)
+        {
+            MessageBox.Show("You Chose " + e.FileName);
         }
     }
 }

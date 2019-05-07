@@ -8,22 +8,44 @@ namespace WindowsFormsDataBinding
 {
     public class Product
     {
-        public string modelNumber;
-        public string modelName;
-        public decimal unitCost;
-        public string description;
+        private string modelNumber;
+        public string ModelNumber
+        {
+            get { return modelNumber; }
+            set { modelNumber = value; }
+        }
+
+        private string modelName;
+        public string ModelName
+        {
+            get; set; // C# 3.0 shorthand set/get
+        }
+        private decimal unitCost;
+        public decimal UnitCost
+        {
+            get { return unitCost; }
+            set { unitCost = value; }
+        }
+
+        private string description;
+        public string Description
+        {
+            get { return description; }
+            set { description = value; }
+        }
 
         public Product(string modelNumber, string modelName, decimal unitCost, string description)
         {
-            this.modelNumber = modelNumber;
-            this.modelName = modelName;
-            this.unitCost = unitCost;
-            this.description = description;
+            ModelNumber = modelNumber;
+            ModelName = modelName;
+            UnitCost = unitCost;
+            Description = description;
         }
 
         public override string ToString()
         {
-            return String.Format("{0}, ({1})", modelName, modelNumber);
+            //System.Windows.Forms.MessageBox.Show(string.Format("{0} ({1})", ModelName, ModelNumber));
+            return string.Format("{0} {1}", ModelName.Trim(), ModelNumber.Trim());
         }
     }
 
