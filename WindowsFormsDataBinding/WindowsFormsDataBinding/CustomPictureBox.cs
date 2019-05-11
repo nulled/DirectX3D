@@ -65,11 +65,13 @@ namespace WindowsFormsDataBinding
             if (directory.Length != 0)
             {
                 images.Clear();
+                Image thumbnail;
                 DirectoryInfo dir = new DirectoryInfo(directory);
                 foreach (FileInfo file in dir.GetFiles("*.jpg"))
                 {
                     //MessageBox.Show(file.FullName);
-                    images.Add(new NamedImage(Image.FromFile(file.FullName), file.FullName));
+                    thumbnail = Image.FromFile(file.FullName).GetThumbnailImage(Dimension, Dimension, null, IntPtr.Zero);
+                    images.Add(new NamedImage(thumbnail, file.FullName));
                 }
             }
         }
