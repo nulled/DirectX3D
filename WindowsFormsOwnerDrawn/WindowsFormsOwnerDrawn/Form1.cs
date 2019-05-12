@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Drawing.Text;
 
 namespace WindowsFormsOwnerDrawn
 {
@@ -19,27 +20,67 @@ namespace WindowsFormsOwnerDrawn
 
         private void listBox1_MeasureItem(object sender, MeasureItemEventArgs e)
         {
-            e.ItemHeight = 25;
+            ListBox list = (ListBox)sender;
+            FormattedListItemWrapper item = list.Items[e.Index] as FormattedListItemWrapper;
+
+            if (item == null || item.Font == null)
+            {
+                e.ItemHeight = 15;
+            }
+            else
+            {
+                Font font = item.Font;
+                e.ItemHeight = font.Height;
+            }
         }
 
         private void listBox1_DrawItem(object sender, DrawItemEventArgs e)
         {
-            e.DrawBackground();
+            ListBox list = (ListBox)sender;
+            FormattedListItemWrapper item = list.Items[e.Index] as FormattedListItemWrapper;
+
+            Font font = null;
+            Color foreColor = Color.Empty;
+            Color backColor = Color.Empty;
+            if (item != null)
+            {
+                font = item.Font;
+                foreColor = item.ForeColor;
+                backColor = item.BackColor;
+            }
+
+            if (font == null)
+            {
+                font = list.Font;
+            }
 
             Brush brush;
-
-            if ((e.State & DrawItemState.Selected) == DrawItemState.Selected)
-            {
-                brush = Brushes.Red;
-            }
-            else
+            if (foreColor == Color.Empty)
             {
                 brush = Brushes.Black;
             }
+            else
+            {
+                brush = new SolidBrush(item.ForeColor);
+            }
 
-            string text = ((ListBox)sender).Items[e.Index].ToString();
+            if ((e.State & DrawItemState.Selected) == DrawItemState.Selected)
+            {
+                brush = Brushes.White;
+            }
+            
+            if (backColor == Color.Empty)
+            {
+                e.DrawBackground();
+            }
+            else
+            {
+                Brush brushBackground = new SolidBrush(item.BackColor);
+                e.Graphics.FillRectangle(brushBackground, e.Bounds);
+            }
 
-            e.Graphics.DrawString(text, ((Control)sender).Font, brush, e.Bounds.X, e.Bounds.Y);
+            string text = list.Items[e.Index].ToString();
+            e.Graphics.DrawString(text, font, brush, e.Bounds.X, e.Bounds.Y);
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -47,11 +88,21 @@ namespace WindowsFormsOwnerDrawn
             listBox1.MeasureItem += new MeasureItemEventHandler(listBox1_MeasureItem);
             listBox1.DrawItem += new DrawItemEventHandler(listBox1_DrawItem);
 
-            listBox1.BeginUpdate();
-            listBox1.Items.Add("One");
-            listBox1.Items.Add("Two");
-            listBox1.Items.Add("Three");
-            listBox1.EndUpdate();
+            InstalledFontCollection families = new InstalledFontCollection();
+
+            foreach (FontFamily family in families.Families)
+            {
+                try
+                {
+                    Font font = new Font(family.Name, 11);
+                    FormattedListItemWrapper item = new FormattedListItemWrapper(family.Name, font);
+                    listBox1.Items.Add(item);
+                }
+                catch (ArgumentException err)
+                {
+                    // ignore this font
+                }
+            }
         }
     }
 }
